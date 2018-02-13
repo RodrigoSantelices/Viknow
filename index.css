@@ -1,0 +1,15 @@
+main{
+  text-align: center;
+}
+
+label{
+  display: block;
+  padding-bottom: 20px;
+}
+
+.rangeBar{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 30px;
+}
