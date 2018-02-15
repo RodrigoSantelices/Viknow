@@ -21,6 +21,7 @@ function getDataFromFourSquare(callback){
     client_secret: 'P11LXVYDAKPIFOPYMUV1HXCVLAHCAFWP1K1WXLKWTP5ZYZM5',
     11: '',
     near: '',
+    radius: STATE.distance,
     query: STATE.searchFor,
     v: '20170801',
     limit:20
