@@ -7,30 +7,77 @@
 to a highlighted page for the option
 */
 let STATE = {
-  searchFor: '',
+  searchFor: 'test',
   distance: 5,
+  nearMe: ''
 }
+
+const FOUR_SQUARE = 'https://api.foursquare.com/v2/venues/search';
+
+// this function retrieves data from the foursquare api
+function getDataFromFourSquare(callback){
+  const query = {
+    client_id: 'WAAZ1GSY5CM05ZRVSRUXC4JYMM4RRZ5KLOKOMCF4PRYI2XHZ',
+    client_secret: 'P11LXVYDAKPIFOPYMUV1HXCVLAHCAFWP1K1WXLKWTP5ZYZM5',
+    11: '',
+    near: '',
+    query: STATE.searchFor,
+    v: '20170801',
+    limit:20
+  }
+  $.getJSON(FOUR_SQUARE, query, callback)
+  console.log(query)
+};
+
+// this function renders our results into html
+function renderResults(result){
+  console.log(result);
+  return
+  `<h2>${result.name}<h2>`
+}
+
+// this function goes through the returned objects
+function displayFoursquareData(data){
+  const results = data.items.map((item,index) =>
+renderResults(items));
+$(`.js-options`).html(results);
+}
+
+// this function listens for the location submit FIXXX
+
+function watchSubmit(){
+  $(`.js-where`).submit(event =>{
+    event.preventDefault();
+    const queryTarget = $(event.currentTarget).find(`.js-otherLocation`)
+    const query = query.target.val();
+
+    //clear input
+    queryTarget.val('');
+    getDataFromFourSquare(query, displayFoursquareData);
+})
+};
+
+// this function sets the searchFor key value in STATE to either wineries or tasting room
+function setSearchFor(){
+  $(`.js-wineries`).on('click',function(){
+    STATE.searchFor = 'Wineries';
+    console.log(STATE.searchFor);
+
+  });
+  $(`.js-tasteRooms`).on('click',function(){
+    STATE.searchFor = 'Tasting Rooms';
+    console.log(STATE.searchFor);
+  });
+
+}
+
 //This function will call functions based on the users' selection and hides the original form
 function whatToSearch(){
-  $('.js-search').on('click',function(){
+  $(`.js-search`).on('click',function(){
     //will eventually ask to allow for location
     // make an if statement to set a global variable to winerie or taste room depending on which button was pressed.
+    $(`.js-where`).removeClass('hidden')
 
-    $('.js-form').hide();
-    $('.js-where').append(`
-    <button class='js-nearMe'>Use My Current Location</button>
-    <label>Other Location</label>
-    <input type='search' class='js-otherLocation'>
-    <label>Distance (mi)</label>
-    <input  type="range" name="points" min="1" max="100" step:'25' list='tickmarks' class="rangeBar" onchange="updateTextInput(this.value);">
-    <datalist id='tickmarks'>
-          <option value="1" label="1%">
-          <option value="25" label=25>
-          <option value="50" label=50>
-          <option value="75" label=75>
-          <option value="100" label=100>
-        </datalist>
-        <input type="text" id="textInput" value="50" disabled>`)
   })
 }
 // This function updates the distance value
@@ -40,28 +87,17 @@ function updateTextInput(val) {
           console.log(STATE.distance);
         }
 
-// this function sets the searchFor key value in STATE to either wineries or tasting room
-function setSearchFor(){
-  $('.js-wineries').on('click',function(){
-    STATE.searchFor = 'wineries'
-    console.log(STATE.searchFor);
-  });
-  $('.js-tasteRooms').on('click',function(){
-    STATE.searchFor = 'tasting room';
-    console.log(STATE.searchFor);
-  });
 
-}
 
 //this function will determine the information that will be sent to the APIs, location, and distance.
 function whereToSearch(){
-
+  console.log('whereToSearch')
 }
-
 // bring it all together function
 function searchWine(){
-  whatToSearch();
   setSearchFor();
+  whatToSearch();
+  watchSubmit();
 }
 
-searchWine();
+$(searchWine);

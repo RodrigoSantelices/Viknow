@@ -9,7 +9,6 @@ label{
 }
 
 button{
-  display: block;
   text-align: center;
   margin-right: auto;
   margin-left: auto;
@@ -17,6 +16,8 @@ button{
   margin-top: 20px;
   margin-bottom: 10px;
 }
+
+
 .rangeBar{
   display: block;
   margin-left: auto;
@@ -27,4 +28,8 @@ button{
   width: 30px;
   text-align:center;
   border:none;
+}
+
+.hidden{
+  visibility: hidden;
 }

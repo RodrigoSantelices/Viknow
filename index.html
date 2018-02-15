@@ -9,19 +9,35 @@
   </head>
   <body>
     <main role="main">
+      <div class="titles">
       <h1>ViKnow</h1>
+    </div>
       <form class="js-form" action="index.html" method="post">
         <label for="find" class="findLabel">Find:</label>
-      <button type="button" name="button" class="js-search js-wineries">Wineries</button>
-      <button type="button" name="button" class="js-search js-tasteRooms">Taste Rooms</button>
-      </form>
-      <form class="js-where">
+      <button type="button" name="button" class=" js-wineries js-search">Wineries</button>
+      <button type="button" name="button" class="js-tasteRooms js-search ">Tasting Rooms</button>
 
       </form>
-      <section class="map">
+      <form class="js-where hidden" action="index.html" method="post">
+        <button class='js-nearMe' type='submit'>Use My Current Location</button>
+        <label>Other Location</label>
+        <input type='text' name='location search' class='js-otherLocation'>
+        <button type="submit" name="button">Go</button>
+        <label>Distance (mi)</label>
+        <input  type="range" name="points" min="1" max="100" step:'25' list='tickmarks' class="rangeBar" onchange="updateTextInput(this.value);">
+        <datalist id='tickmarks'>
+              <option value="1" label="1">
+              <option value="25" label=25>
+              <option value="50" label=50>
+              <option value="75" label=75>
+              <option value="100" label=100>
+            </datalist>
+            <input type="text" id="textInput" value="50" disabled>
+      </form>
+      <section class="js-map">
 
       </section>
-      <section class="options">
+      <section class="js-options">
 
       </section>
     </main>
