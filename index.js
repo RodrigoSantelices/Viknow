@@ -7,7 +7,7 @@
 to a highlighted page for the option
 */
 let STATE = {
-  searchFor: 'Winery',
+  searchFor: '',
   distance: 50,
   nearMe: ''
 }
@@ -22,9 +22,9 @@ function getDataFromFourSquare(locale, callback){
     11: '',
     near: locale,
     radius: STATE.distance,
-    query: STATE.query,
+    query: '',
     v: '20170801',
-    limit:20
+    limit:10
   }
   $.getJSON(FOUR_SQUARE, data, callback)
   console.log(locale)
@@ -39,7 +39,8 @@ function renderResults(result){
 
 // this function goes through the returned objects
 function displayFourSquareData(data){
-  const results = data.groups.map((item, index) =>
+  console.log(data);
+  const results = data.response.venues.map((item, index) =>
 renderResults(item));
 $(`.js-options`).html(results);
 
@@ -51,9 +52,11 @@ function watchSubmit(){
   $(`.js-where`).submit(event =>{
     event.preventDefault();
     const locale = $('.js-otherLocation').val();
-
     //clear input
     $('.js-otherLocation').val('');
+
+    // these event listeners set the searchFor
+    //move setSearchFor function in here -->
     getDataFromFourSquare(locale, displayFourSquareData);
 })
 };
