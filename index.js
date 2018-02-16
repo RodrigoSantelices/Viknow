@@ -7,27 +7,27 @@
 to a highlighted page for the option
 */
 let STATE = {
-  searchFor: 'test',
-  distance: 5,
+  searchFor: 'Winery',
+  distance: 50,
   nearMe: ''
 }
 
 const FOUR_SQUARE = 'https://api.foursquare.com/v2/venues/search';
 
 // this function retrieves data from the foursquare api
-function getDataFromFourSquare(query, callback){
+function getDataFromFourSquare(locale, callback){
   const data = {
     client_id: 'WAAZ1GSY5CM05ZRVSRUXC4JYMM4RRZ5KLOKOMCF4PRYI2XHZ',
     client_secret: 'P11LXVYDAKPIFOPYMUV1HXCVLAHCAFWP1K1WXLKWTP5ZYZM5',
     11: '',
-    near: '',
+    near: locale,
     radius: STATE.distance,
-    query: STATE.searchFor,
+    query: STATE.query,
     v: '20170801',
     limit:20
   }
   $.getJSON(FOUR_SQUARE, data, callback)
-  console.log(query)
+  console.log(locale)
 };
 
 // this function renders our results into html
@@ -38,10 +38,11 @@ function renderResults(result){
 }
 
 // this function goes through the returned objects
-function displayFoursquareData(data){
-  const results = data.items.map((item,index) =>
-renderResults(items));
+function displayFourSquareData(data){
+  const results = data.groups.map((item, index) =>
+renderResults(item));
 $(`.js-options`).html(results);
+
 }
 
 // this function listens for the location submit FIXXX
@@ -49,11 +50,11 @@ $(`.js-options`).html(results);
 function watchSubmit(){
   $(`.js-where`).submit(event =>{
     event.preventDefault();
-    const query = $('.js-otherLocation').val();
+    const locale = $('.js-otherLocation').val();
 
     //clear input
     $('.js-otherLocation').val('');
-    getDataFromFourSquare(query, displayFoursquareData);
+    getDataFromFourSquare(locale, displayFourSquareData);
 })
 };
 

@@ -1,5 +1,6 @@
 main{
   text-align: center;
+
 }
 
 label{
@@ -17,6 +18,9 @@ button{
   margin-bottom: 10px;
 }
 
+.search-button{
+  padding: 0;
+}
 
 .rangeBar{
   display: block;
