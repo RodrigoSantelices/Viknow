@@ -15,8 +15,8 @@ let STATE = {
 const FOUR_SQUARE = 'https://api.foursquare.com/v2/venues/search';
 
 // this function retrieves data from the foursquare api
-function getDataFromFourSquare(callback){
-  const query = {
+function getDataFromFourSquare(query, callback){
+  const data = {
     client_id: 'WAAZ1GSY5CM05ZRVSRUXC4JYMM4RRZ5KLOKOMCF4PRYI2XHZ',
     client_secret: 'P11LXVYDAKPIFOPYMUV1HXCVLAHCAFWP1K1WXLKWTP5ZYZM5',
     11: '',
@@ -26,7 +26,7 @@ function getDataFromFourSquare(callback){
     v: '20170801',
     limit:20
   }
-  $.getJSON(FOUR_SQUARE, query, callback)
+  $.getJSON(FOUR_SQUARE, data, callback)
   console.log(query)
 };
 
@@ -49,11 +49,10 @@ $(`.js-options`).html(results);
 function watchSubmit(){
   $(`.js-where`).submit(event =>{
     event.preventDefault();
-    const queryTarget = $(event.currentTarget).find(`.js-otherLocation`)
-    const query = query.target.val();
+    const query = $('.js-otherLocation').val();
 
     //clear input
-    queryTarget.val('');
+    $('.js-otherLocation').val('');
     getDataFromFourSquare(query, displayFoursquareData);
 })
 };
