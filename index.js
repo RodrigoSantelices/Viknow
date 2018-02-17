@@ -8,11 +8,11 @@ to a highlighted page for the option
 */
 let STATE = {
   searchFor: '',
-  distance: 50,
+  distance: 500,
   nearMe: ''
 }
 
-const FOUR_SQUARE = 'https://api.foursquare.com/v2/venues/search';
+const FOUR_SQUARE = 'https://api.foursquare.com/v2/venues/explore';
 
 // this function retrieves data from the foursquare api
 function getDataFromFourSquare(locale, callback){
@@ -21,9 +21,9 @@ function getDataFromFourSquare(locale, callback){
     client_secret: 'P11LXVYDAKPIFOPYMUV1HXCVLAHCAFWP1K1WXLKWTP5ZYZM5',
     11: '',
     near: locale,
-    radius: STATE.distance,
-    query: '',
-    v: '20170801',
+    //section: 'drinks', this is returning bars
+    query: STATE.searchFor,
+    v: '20170801', //not sure what this is
     limit:10
   }
   $.getJSON(FOUR_SQUARE, data, callback)
@@ -40,7 +40,7 @@ function renderResults(result){
 // this function goes through the returned objects
 function displayFourSquareData(data){
   console.log(data);
-  const results = data.response.venues.map((item, index) =>
+  const results = data.response.groups.map((item, index) =>
 renderResults(item));
 $(`.js-options`).html(results);
 
