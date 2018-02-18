@@ -35,24 +35,30 @@ function renderResults(result){
   console.log(result);
   for (i=0; i<result.items.length;i++){
     const values = result.items[i].venue;
+    if (values.location.address){
     $(`.js-options`).append(`
       <div class='js-returned'>
-      <h3>${values.name}</h3>
-      <p>Contact:${values.contact.formattedPhone}</p>
-      <p>Address:${values.location.address}</p>
-      <p><a href="${values.url}" target='_blank'>Website</a></p>
-      <p>Rating:${values.rating}</p>
-      </div>
-      `)
-  }
-}
+      <h3>${values.name}</h3>`+
+      (values.contact.formattedPhone ? `<p>Contact:${values.contact.formattedPhone}</p>`: ``) +
+      `<p>Address:${values.location.address}</p>` +
+      (values.rating ? `<p>Rating:${values.rating}</p>` : '') +
+      (values.url ? `<button class='site-button'><a href='${values.url}' target='_blank'>More Info</a></button>` : '') +
+      `</div>`
+        )
 
+    /*
+
+
+      </div>
+      `) */
+  }}}
 // this function goes through the returned objects
 function displayFourSquareData(data){
-//  console.log(data);
+  console.log(data);
+  $(`.whereSearched`).append(`<div class='search-place'>${data.response.geocode.displayString}</div>`)
   const results = data.response.groups.map((item, index) =>
 renderResults(item));
-//$(`.js-options`).html(results);
+
 
 }
 
