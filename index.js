@@ -33,16 +33,26 @@ function getDataFromFourSquare(locale, callback){
 // this function renders our results into html
 function renderResults(result){
   console.log(result);
-  return
-  `<h2>${result.name}<h2>`
+  for (i=0; i<result.items.length;i++){
+    const values = result.items[i].venue;
+    $(`.js-options`).append(`
+      <div class='js-returned'>
+      <h3>${values.name}</h3>
+      <p>Contact:${values.contact.formattedPhone}</p>
+      <p>Address:${values.location.address}</p>
+      <p><a href="${values.url}" target='_blank'>Website</a></p>
+      <p>Rating:${values.rating}</p>
+      </div>
+      `)
+  }
 }
 
 // this function goes through the returned objects
 function displayFourSquareData(data){
-  console.log(data);
+//  console.log(data);
   const results = data.response.groups.map((item, index) =>
 renderResults(item));
-$(`.js-options`).html(results);
+//$(`.js-options`).html(results);
 
 }
 
@@ -64,12 +74,12 @@ function watchSubmit(){
 // this function sets the searchFor key value in STATE to either wineries or tasting room
 function setSearchFor(){
   $(`.js-wineries`).on('click',function(){
-    STATE.searchFor = 'Wineries';
+    STATE.searchFor = 'Winery';
     console.log(STATE.searchFor);
 
   });
   $(`.js-tasteRooms`).on('click',function(){
-    STATE.searchFor = 'Tasting Rooms';
+    STATE.searchFor = 'Tasting Room';
     console.log(STATE.searchFor);
   });
 
@@ -93,7 +103,7 @@ function updateTextInput(val) {
 
 
 
-//this function will determine the information that will be sent to the APIs, location, and distance.
+//this function will grab the user's location and set 11 to those coordinates
 function whereToSearch(){
   console.log('whereToSearch')
 }
