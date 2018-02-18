@@ -11,19 +11,21 @@
     <main role="main">
       <div class="titles">
       <h1>ViKnow</h1>
-      <p>Winexploration </p>
     </div>
       <form class="js-form" action="index.html" method="post">
-        <label for="find" class="findLabel"></label>
+        <fieldset>
+          <legend>Winexploration </legend>
       <button type="button" name="button" class=" js-wineries js-search">Wineries</button>
       <button type="button" name="button" class="js-tasteRooms js-search ">Tasting Rooms</button>
-
+      </fieldset>
       </form>
       <form class="js-where hidden" action="index.html" method="post">
-        <button class='js-nearMe' type='submit'>Use My Current Location</button>
+        <fieldset>
+          <legend>Where to Search</legend>
+        <button class='js-nearMe' type='submit' onclick="whereAmI()" >Use My Current Location</button>
         <label>Other Location</label>
         <input type='text' name='location search' class='js-otherLocation'>
-        <button type="submit" class="search-button" name="button">Search</button>
+        <button type="submit" class="js-search-button" name="button">Search</button>
       <!-- Distance is not currently necessary
       <label>Distance (mi)</label>
         <input  type="range" name="points" min="1" max="100" step:'25' list='tickmarks' class="rangeBar" onchange="updateTextInput(this.value);">
@@ -36,13 +38,14 @@
             </datalist>
             <input type="text" id="textInput" value="50" disabled>
           -->
+        </fieldset>
       </form>
       <section class='whereSearched'>
       </section>
       <section class="js-map">
 
       </section>
-      <div class="js-options" style='height:360px; overflow: auto' >
+      <div class="js-options" style='height:400px; overflow: auto' >
 
       </div>
     </main>

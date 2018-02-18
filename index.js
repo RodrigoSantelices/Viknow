@@ -9,7 +9,9 @@ to a highlighted page for the option
 let STATE = {
   searchFor: '',
   distance: 500,
-  nearMe: ''
+  nearMe: '',
+  latitude:'' ,
+  longitude:''
 }
 
 const FOUR_SQUARE = 'https://api.foursquare.com/v2/venues/explore';
@@ -19,7 +21,7 @@ function getDataFromFourSquare(locale, callback){
   const data = {
     client_id: 'WAAZ1GSY5CM05ZRVSRUXC4JYMM4RRZ5KLOKOMCF4PRYI2XHZ',
     client_secret: 'P11LXVYDAKPIFOPYMUV1HXCVLAHCAFWP1K1WXLKWTP5ZYZM5',
-    11: '',
+    11: STATE.latitude +','+STATE.longitude,
     near: locale,
     //section: 'drinks', this is returning bars
     query: STATE.searchFor,
@@ -44,14 +46,8 @@ function renderResults(result){
       (values.rating ? `<p>Rating:${values.rating}</p>` : '') +
       (values.url ? `<button class='site-button'><a href='${values.url}' target='_blank'>More Info</a></button>` : '') +
       `</div>`
-        )
-
-    /*
-
-
-      </div>
-      `) */
-  }}}
+        )}
+      }}
 // this function goes through the returned objects
 function displayFourSquareData(data){
   console.log(data);
@@ -69,6 +65,7 @@ renderResults(item));
 function watchSubmit(){
   $(`.js-where`).submit(event =>{
     event.preventDefault();
+    $(`.js-search-button`).on('click', function(){
     const locale = $('.js-otherLocation').val();
     //clear input
     $('.js-otherLocation').val('');
@@ -76,6 +73,7 @@ function watchSubmit(){
     // these event listeners set the searchFor
     //move setSearchFor function in here -->
     getDataFromFourSquare(locale, displayFourSquareData);
+    })
 })
 };
 
@@ -102,7 +100,7 @@ function whatToSearch(){
 
   })
 }
-// This function updates the distance value
+// This function updates the distance value not currently necessary
 function updateTextInput(val) {
           document.getElementById('textInput').value=val;
           STATE.distance = val;
@@ -112,9 +110,22 @@ function updateTextInput(val) {
 
 
 //this function will grab the user's location and set 11 to those coordinates
-function whereToSearch(){
-  console.log('whereToSearch')
+function whereAmI(){
+  if(navigator.geolocation){
+    navigator.geolocation.getCurrentPosition(usePosition);
+  }
+    else {
+      console.log('Geolocation is not supported by this browser')
+    }
+
+  }
+function usePosition(position){
+  STATE.latitude = position.coords.latitude;
+  STATE.longitude= position.coords.longitude;
+  console.log(STATE.latitude)
+  console.log(STATE.longitude)
 }
+
 // bring it all together function
 function searchWine(){
   setSearchFor();
