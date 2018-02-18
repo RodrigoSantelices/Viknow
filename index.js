@@ -55,6 +55,8 @@ function renderResults(result){
 // this function goes through the returned objects
 function displayFourSquareData(data){
   console.log(data);
+  $(`.js-form`).addClass('hidden');
+  $(`.js-where`).addClass('hidden');
   $(`.whereSearched`).append(`<div class='search-place'>${data.response.geocode.displayString}</div>`)
   const results = data.response.groups.map((item, index) =>
 renderResults(item));
