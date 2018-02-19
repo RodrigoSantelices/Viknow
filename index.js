@@ -16,13 +16,29 @@ let STATE = {
 
 const FOUR_SQUARE = 'https://api.foursquare.com/v2/venues/explore';
 
-// this function retrieves data from the foursquare api
+// this function retrieves data from the foursquare api. Locale = set destination
 function getDataFromFourSquare(locale, callback){
   const data = {
     client_id: 'WAAZ1GSY5CM05ZRVSRUXC4JYMM4RRZ5KLOKOMCF4PRYI2XHZ',
     client_secret: 'P11LXVYDAKPIFOPYMUV1HXCVLAHCAFWP1K1WXLKWTP5ZYZM5',
-    11: STATE.latitude +','+STATE.longitude,
+    11: '',
     near: locale,
+    //section: 'drinks', this is returning bars
+    query: STATE.searchFor,
+    v: '20170801', //not sure what this is
+    limit:10
+  }
+  $.getJSON(FOUR_SQUARE, data, callback)
+  console.log(locale)
+};
+
+//will be called instead of the other getData function and return current location instead
+function getDataFromFourSquareCurrent(locale, callback){
+  const data = {
+    client_id: 'WAAZ1GSY5CM05ZRVSRUXC4JYMM4RRZ5KLOKOMCF4PRYI2XHZ',
+    client_secret: 'P11LXVYDAKPIFOPYMUV1HXCVLAHCAFWP1K1WXLKWTP5ZYZM5',
+    11: locale,
+    near: '',
     //section: 'drinks', this is returning bars
     query: STATE.searchFor,
     v: '20170801', //not sure what this is
@@ -51,37 +67,40 @@ function renderResults(result){
 // this function goes through the returned objects
 function displayFourSquareData(data){
   console.log(data);
-  $(`.js-form`).addClass('hidden');
+/* don't hide?
   $(`.js-where`).addClass('hidden');
+  $(`.js-here`).addClass('hidden'); */
   $(`.whereSearched`).append(`<div class='search-place'>${data.response.geocode.displayString}</div>`)
   const results = data.response.groups.map((item, index) =>
 renderResults(item));
-
 
 }
 
 // this function listens for the location submit FIXXX
 
-function watchSubmit(){
+function watchSubmitLocation(){
   $(`.js-where`).submit(event =>{
     event.preventDefault();
-    $(`.js-search-button`).on('click', function(){
     const locale = $('.js-otherLocation').val();
     //clear input
     $('.js-otherLocation').val('');
-
     // these event listeners set the searchFor
     //move setSearchFor function in here -->
     getDataFromFourSquare(locale, displayFourSquareData);
-    })
 })
-};
+}
+
+function watchSubmitCurrent(){
+
+}
 
 // this function sets the searchFor key value in STATE to either wineries or tasting room
 function setSearchFor(){
   $(`.js-wineries`).on('click',function(){
     STATE.searchFor = 'Winery';
     console.log(STATE.searchFor);
+    $(`.js-options`).children('div').remove();
+    $(`.whereSearched`).children('div').remove();
 
   });
   $(`.js-tasteRooms`).on('click',function(){
@@ -96,7 +115,8 @@ function whatToSearch(){
   $(`.js-search`).on('click',function(){
     //will eventually ask to allow for location
     // make an if statement to set a global variable to winerie or taste room depending on which button was pressed.
-    $(`.js-where`).removeClass('hidden')
+    $(`.js-where`).removeClass('hidden');
+    $(`.js-here`).removeClass('hidden')
 
   })
 }
@@ -106,31 +126,17 @@ function updateTextInput(val) {
           STATE.distance = val;
           console.log(STATE.distance);
         }
+// map functionality
 
 
 
-//this function will grab the user's location and set 11 to those coordinates
-function whereAmI(){
-  if(navigator.geolocation){
-    navigator.geolocation.getCurrentPosition(usePosition);
-  }
-    else {
-      console.log('Geolocation is not supported by this browser')
-    }
-
-  }
-function usePosition(position){
-  STATE.latitude = position.coords.latitude;
-  STATE.longitude= position.coords.longitude;
-  console.log(STATE.latitude)
-  console.log(STATE.longitude)
-}
 
 // bring it all together function
 function searchWine(){
   setSearchFor();
   whatToSearch();
-  watchSubmit();
+  watchSubmitLocation();
+//  watchSubmitCurrent();
 }
 
 $(searchWine);

@@ -21,7 +21,9 @@ button{
 .js-search-button{
   padding: 0;
 }
-
+.js-search:hover {
+    background-color: gray;
+}
 .rangeBar{
   display: block;
   margin-left: auto;
@@ -42,4 +44,22 @@ button{
   border: 1px solid;
   border-color: gray;
   border-radius: 3px;
+}
+#map{
+  width:100%;
+  height:300px;
+}
+
+div.js-options{
+  overflow:auto;
+  white-space: nowrap;
+}
+
+div.js-returned{
+  display: inline-block;
+  text-align: center;
+  padding: 14px;
+}
+div.js-returned a:hover{
+  background-color: gray;
 }

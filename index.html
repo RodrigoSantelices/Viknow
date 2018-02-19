@@ -19,12 +19,31 @@
       <button type="button" name="button" class="js-tasteRooms js-search ">Tasting Rooms</button>
       </fieldset>
       </form>
-      <form class="js-where hidden" action="index.html" method="post">
+      <div id="map">
+        <script>
+      function initMap() {
+        var uluru = {lat:38.294788, lng: -122.461510};
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 10,
+          center: uluru
+        });
+        var marker = new google.maps.Marker({
+          position: uluru,
+          map: map
+        });
+      }
+        </script>
+          <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjWatYqtllES1av6Nt2vC-r0JtP6uoEwg&callback=initMap"></script>
+      </div>
+      <form class="js-here hidden" action="index.html" method="post">
         <fieldset>
           <legend>Where to Search</legend>
-        <button class='js-nearMe' type='submit' onclick="whereAmI()" >Use My Current Location</button>
-        <label>Other Location</label>
-        <input type='text' name='location search' class='js-otherLocation'>
+
+      <!-- BROKEN CURRENT LOCATION <button class='js-nearMe'>Use My Current Location</button> -->
+
+      </form>
+      <form class="js-where hidden" action="index.html" method="post">
+        <input type='text' name='location search' class='js-otherLocation' placeholder="Other Location">
         <button type="submit" class="js-search-button" name="button">Search</button>
       <!-- Distance is not currently necessary
       <label>Distance (mi)</label>
@@ -42,10 +61,8 @@
       </form>
       <section class='whereSearched'>
       </section>
-      <section class="js-map">
 
-      </section>
-      <div class="js-options" style='height:400px; overflow: auto' >
+      <div class="js-options" >
 
       </div>
     </main>
