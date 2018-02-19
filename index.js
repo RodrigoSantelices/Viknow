@@ -30,23 +30,7 @@ function getDataFromFourSquare(locale, callback){
     //section: 'drinks', this is returning bars
     query: STATE.searchFor,
     v: '20170801', //not sure what this is
-    limit:10
-  }
-  $.getJSON(FOUR_SQUARE, data, callback)
-  console.log(locale)
-};
-
-//will be called instead of the other getData function and return current location instead
-function getDataFromFourSquareCurrent(locale, callback){
-  const data = {
-    client_id: 'WAAZ1GSY5CM05ZRVSRUXC4JYMM4RRZ5KLOKOMCF4PRYI2XHZ',
-    client_secret: 'P11LXVYDAKPIFOPYMUV1HXCVLAHCAFWP1K1WXLKWTP5ZYZM5',
-    11: locale,
-    near: '',
-    //section: 'drinks', this is returning bars
-    query: STATE.searchFor,
-    v: '20170801', //not sure what this is
-    limit:10
+    limit:30
   }
   $.getJSON(FOUR_SQUARE, data, callback)
   console.log(locale)
@@ -60,7 +44,7 @@ function renderResults(result){
     const values = result.items[i].venue;
     if (values.location.address){
     $(`.js-options`).append(`
-      <div class='js-returned'>
+      <div class='js-returned style='background-color:ratingColor;'>
       <h3>${values.name}</h3>`+
       (values.contact.formattedPhone ? `<p>Contact:${values.contact.formattedPhone}</p>`: ``) +
       `<p>Address:${values.location.address}</p>` +
@@ -69,7 +53,6 @@ function renderResults(result){
       `</div>`)
       // add to locations array
       STATE.locations.push({lat:values.location.lat, lng: values.location.lng});
-      console.log(STATE.locations)
         }
       }}
 // this function goes through the returned objects
@@ -95,7 +78,7 @@ function watchSubmitLocation(){
     //clear input
     $('.js-otherLocation').val('');
     //clear previous results
-    //removes previous search results
+
     $(`.js-options`).children('div').remove();
     $(`.whereSearched`).children('div').remove();
     // these event listeners set the searchFor
@@ -114,7 +97,7 @@ function setSearchFor(){
   $(`.js-wineries`).on('click',function(){
     $(`.js-wineries`).addClass('selected');
     $(`.js-tasteRooms`).removeClass('selected');
-    STATE.searchFor = 'Winery';
+    STATE.searchFor = 'Wineries';
     console.log(STATE.searchFor);
 
   });
@@ -154,16 +137,34 @@ let map = new google.maps.Map(document.getElementById('map'), {
   center: STATE.locations[0]
 });
 let options = [];
+
+
+let newIcon = 'red-wine-bottle.svg'
+// new marker for every returned location
 for(i=0; i<STATE.locations.length; i++){
     options[i] = new google.maps.Marker({
     position: new google.maps.LatLng(STATE.locations[i]),
-    map: map
+    animation:google.maps.Animation.DROP,
+    map: map,
+  //  icon: newIcon
   });
 }
-//let sonoma = STATE.locations[0];
-//let nappa = {lat:38.297539, lng:-122.286865};
+//sets zoom to include all markers
+var bounds = new google.maps.LatLngBounds();
+for (var i = 0; i < options.length; i++) {
+ bounds.extend(options[i].getPosition());
+}
 
+map.fitBounds(bounds);
 
+}
+//function to bounce pins, yes you read that right
+function toggleBounce() {
+  if(marker.getAnimation() !== null){
+    marker.setAnimation(null);
+  } else {
+    marker.setAnimation(google.maps.Animation.BOUNCE);
+  }
 }
 
 // bring it all together function
