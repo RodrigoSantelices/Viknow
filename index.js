@@ -11,7 +11,11 @@ let STATE = {
   distance: 500,
   nearMe: '',
   latitude:'' ,
-  longitude:''
+  longitude:'',
+  locations:[
+      {lat:38.294788,lng:-122.461510 } //sonoma county, to be replaced
+
+]
 }
 
 const FOUR_SQUARE = 'https://api.foursquare.com/v2/venues/explore';
@@ -51,6 +55,7 @@ function getDataFromFourSquareCurrent(locale, callback){
 // this function renders our results into html
 function renderResults(result){
   console.log(result);
+  STATE.locations.length = 0;
   for (i=0; i<result.items.length;i++){
     const values = result.items[i].venue;
     if (values.location.address){
@@ -61,8 +66,11 @@ function renderResults(result){
       `<p>Address:${values.location.address}</p>` +
       (values.rating ? `<p>Rating:${values.rating}</p>` : '') +
       (values.url ? `<button class='site-button'><a href='${values.url}' target='_blank'>More Info</a></button>` : '') +
-      `</div>`
-        )}
+      `</div>`)
+      // add to locations array
+      STATE.locations.push({lat:values.location.lat, lng: values.location.lng});
+      console.log(STATE.locations)
+        }
       }}
 // this function goes through the returned objects
 function displayFourSquareData(data){
@@ -73,6 +81,8 @@ function displayFourSquareData(data){
   $(`.whereSearched`).append(`<div class='search-place'>${data.response.geocode.displayString}</div>`)
   const results = data.response.groups.map((item, index) =>
 renderResults(item));
+const resultsMap = data.response.groups.map((item, index) =>
+initMap(item));
 
 }
 
@@ -84,12 +94,17 @@ function watchSubmitLocation(){
     const locale = $('.js-otherLocation').val();
     //clear input
     $('.js-otherLocation').val('');
+    //clear previous results
+    //removes previous search results
+    $(`.js-options`).children('div').remove();
+    $(`.whereSearched`).children('div').remove();
     // these event listeners set the searchFor
     //move setSearchFor function in here -->
     getDataFromFourSquare(locale, displayFourSquareData);
 })
 }
 
+//my location not working currently
 function watchSubmitCurrent(){
 
 }
@@ -97,15 +112,18 @@ function watchSubmitCurrent(){
 // this function sets the searchFor key value in STATE to either wineries or tasting room
 function setSearchFor(){
   $(`.js-wineries`).on('click',function(){
+    $(`.js-wineries`).addClass('selected');
+    $(`.js-tasteRooms`).removeClass('selected');
     STATE.searchFor = 'Winery';
     console.log(STATE.searchFor);
-    $(`.js-options`).children('div').remove();
-    $(`.whereSearched`).children('div').remove();
 
   });
   $(`.js-tasteRooms`).on('click',function(){
+    $(`.js-tasteRooms`).addClass('selected');
+    $(`.js-wineries`).removeClass('selected');
     STATE.searchFor = 'Tasting Room';
     console.log(STATE.searchFor);
+
   });
 
 }
@@ -126,10 +144,27 @@ function updateTextInput(val) {
           STATE.distance = val;
           console.log(STATE.distance);
         }
-// map functionality
+// map functionality, initiates map and displays returns on map also has access to returned values
+function initMap(result){
+//test sonoma
+  //let sonoma = {lat:result.items[0].venue.location.lat, lng: result.items[0].venue.location.lng};
+//actual sonoma
+let map = new google.maps.Map(document.getElementById('map'), {
+  zoom: 12,
+  center: STATE.locations[0]
+});
+let options = [];
+for(i=0; i<STATE.locations.length; i++){
+    options[i] = new google.maps.Marker({
+    position: new google.maps.LatLng(STATE.locations[i]),
+    map: map
+  });
+}
+//let sonoma = STATE.locations[0];
+//let nappa = {lat:38.297539, lng:-122.286865};
 
 
-
+}
 
 // bring it all together function
 function searchWine(){

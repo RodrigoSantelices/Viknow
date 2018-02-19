@@ -21,8 +21,9 @@ button{
 .js-search-button{
   padding: 0;
 }
-.js-search:hover {
-    background-color: gray;
+
+.selected{
+  background-color: #a2dba6;
 }
 .rangeBar{
   display: block;
