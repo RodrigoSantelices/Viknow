@@ -19,16 +19,33 @@ let STATE = {
 }
 
 const GOOGLE_MAPS_TEXT = 'https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/textsearch/json';
-
-// this function retrieves data from the foursquare api. Locale = set destination
+const FOUR_SQUARE = 'https://api.foursquare.com/v2/venues/explore';
+const GOOGLE_MAPS_DETAILS = 'https://maps.googleapis.com/maps/api/place/details/json'
+// this function retrieves data from the google api for locations
 function getDataFromGoogleText(locale, callback){
   const data = {
-    query: STATE.searchFor+' in '+'redmond',
+    query: STATE.searchFor+' in '+locale,
     key:'AIzaSyDjWatYqtllES1av6Nt2vC-r0JtP6uoEwg',
+    pagetoken:''
   }
   $.getJSON(GOOGLE_MAPS_TEXT, data, callback)
   console.log(locale)
 };
+
+// this function retrieves data from the foursquare api currently used to return the city that was searched
+function getDataFromFourSquare(locale, callback){
+  const data = {
+    client_id: 'WAAZ1GSY5CM05ZRVSRUXC4JYMM4RRZ5KLOKOMCF4PRYI2XHZ',
+    client_secret: 'P11LXVYDAKPIFOPYMUV1HXCVLAHCAFWP1K1WXLKWTP5ZYZM5',
+    11: '',
+    near: locale,
+    //section: 'drinks', this is returning bars
+    query: STATE.searchFor,
+    v: '20170801', //not sure what this is
+    limit:30
+  }
+  $.getJSON(FOUR_SQUARE, data, callback)
+}
 
 // this function renders our results into html
 function renderResults(result){
@@ -36,28 +53,31 @@ function renderResults(result){
   STATE.locations.length = 0;
   for (i=0; i<result.results.length;i++){
     const values = result.results[i];
-    if (values.formatted_address){
+  //  if (values.formatted_address){
     $(`.js-options`).append(`
       <div class='js-returned' data-venue ='${values.name}'>
       <h3>${values.name}</h3>`+
-      (values.contact.formattedPhone ? `<p>Contact:${values.contact.formattedPhone}</p>`: `<p>No Contact Provided</p>`) +
-      `<p>Address:${values.location.address}</p>` +
+  // will display phone number from places    (values.contact.formattedPhone ? `<p>Contact:TBD</p>`: `<p>No Contact Provided</p>`) +
+      `<p>Address:${values.formatted_address}</p>` +
       (values.rating ? `<p>Rating:${values.rating}</p>` : '<p>Not Rated</p>') +
       (values.url ? `<button class='site-button'><a href='${values.url}' target='_blank'>More Info</a></button>` : `<button class='site-button'>No More Info</button>`) +
       `</div>`)
       // add to locations array
-      STATE.locations.push({lat:values.location.lat, lng: values.location.lng});
-        }
+      STATE.locations.push({lat:values.geometry.location.lat, lng:values.geometry.location.lng});
+      //  }
       }}
-// this function goes through the returned objects
+// this function goes through the returned objects from the google api
 function displayGoogleTextData(data){
-  console.log(data);
- $(`.whereSearched`).append(`<div class='search-place'></div>`)
- /*const results = data.response.groups.map((item, index) =>
- renderResults(item));
- const resultsMap = data.response.groups.map((item, index) =>
- initMap(item));
-*/
+  //console.log(data);
+ //const gathered = data.results.map((item, index) =>
+ renderResults(data);
+ initMap(data);
+
+}
+// this function goes through the returned objects of the foursquare api - currently only the city that was searched
+function displayFourSquareData(data){
+//  console.log(data);
+ $(`.whereSearched`).append(`<div class='search-place'>${data.response.geocode.displayString}</div>`)
 }
 
 $(`.js-options`).on('click','.js-returned', function(){
@@ -79,6 +99,7 @@ function watchSubmitLocation(){
     // these event listeners set the searchFor
     //move setSearchFor function in here -->
     getDataFromGoogleText(locale, displayGoogleTextData);
+    getDataFromFourSquare(locale, displayFourSquareData);
 })
 }
 
