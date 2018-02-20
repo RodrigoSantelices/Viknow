@@ -18,21 +18,15 @@ let STATE = {
 ]
 }
 
-const FOUR_SQUARE = 'https://api.foursquare.com/v2/venues/explore';
+const GOOGLE_MAPS_TEXT = 'https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/textsearch/json';
 
 // this function retrieves data from the foursquare api. Locale = set destination
-function getDataFromFourSquare(locale, callback){
+function getDataFromGoogleText(locale, callback){
   const data = {
-    client_id: 'WAAZ1GSY5CM05ZRVSRUXC4JYMM4RRZ5KLOKOMCF4PRYI2XHZ',
-    client_secret: 'P11LXVYDAKPIFOPYMUV1HXCVLAHCAFWP1K1WXLKWTP5ZYZM5',
-    11: '',
-    near: locale,
-    //section: 'drinks', this is returning bars
-    query: STATE.searchFor,
-    v: '20170801', //not sure what this is
-    limit:30
+    query: STATE.searchFor+' in '+'redmond',
+    key:'AIzaSyDjWatYqtllES1av6Nt2vC-r0JtP6uoEwg',
   }
-  $.getJSON(FOUR_SQUARE, data, callback)
+  $.getJSON(GOOGLE_MAPS_TEXT, data, callback)
   console.log(locale)
 };
 
@@ -40,9 +34,9 @@ function getDataFromFourSquare(locale, callback){
 function renderResults(result){
   console.log(result);
   STATE.locations.length = 0;
-  for (i=0; i<result.items.length;i++){
-    const values = result.items[i].venue;
-    if (values.location.address){
+  for (i=0; i<result.results.length;i++){
+    const values = result.results[i];
+    if (values.formatted_address){
     $(`.js-options`).append(`
       <div class='js-returned' data-venue ='${values.name}'>
       <h3>${values.name}</h3>`+
@@ -56,17 +50,14 @@ function renderResults(result){
         }
       }}
 // this function goes through the returned objects
-function displayFourSquareData(data){
+function displayGoogleTextData(data){
   console.log(data);
-/* don't hide?
-  $(`.js-where`).addClass('hidden');
-  $(`.js-here`).addClass('hidden'); */
-  $(`.whereSearched`).append(`<div class='search-place'>${data.response.geocode.displayString}</div>`)
-  const results = data.response.groups.map((item, index) =>
-renderResults(item));
-const resultsMap = data.response.groups.map((item, index) =>
-initMap(item));
-
+ $(`.whereSearched`).append(`<div class='search-place'></div>`)
+ /*const results = data.response.groups.map((item, index) =>
+ renderResults(item));
+ const resultsMap = data.response.groups.map((item, index) =>
+ initMap(item));
+*/
 }
 
 $(`.js-options`).on('click','.js-returned', function(){
@@ -87,7 +78,7 @@ function watchSubmitLocation(){
     $(`.whereSearched`).children('div').remove();
     // these event listeners set the searchFor
     //move setSearchFor function in here -->
-    getDataFromFourSquare(locale, displayFourSquareData);
+    getDataFromGoogleText(locale, displayGoogleTextData);
 })
 }
 
