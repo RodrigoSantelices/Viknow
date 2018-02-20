@@ -13,7 +13,7 @@ let STATE = {
   latitude:'' ,
   longitude:'',
   locations:[
-      {lat:38.294788,lng:-122.461510 } //sonoma county, to be replaced
+      {lat:38.300851,lng:-122.441418 } //sonoma county, to be replaced
 
 ]
 }
@@ -44,12 +44,12 @@ function renderResults(result){
     const values = result.items[i].venue;
     if (values.location.address){
     $(`.js-options`).append(`
-      <div class='js-returned style='background-color:ratingColor;'>
+      <div class='js-returned' data-venue ='${values.name}'>
       <h3>${values.name}</h3>`+
-      (values.contact.formattedPhone ? `<p>Contact:${values.contact.formattedPhone}</p>`: ``) +
+      (values.contact.formattedPhone ? `<p>Contact:${values.contact.formattedPhone}</p>`: `<p>No Contact Provided</p>`) +
       `<p>Address:${values.location.address}</p>` +
-      (values.rating ? `<p>Rating:${values.rating}</p>` : '') +
-      (values.url ? `<button class='site-button'><a href='${values.url}' target='_blank'>More Info</a></button>` : '') +
+      (values.rating ? `<p>Rating:${values.rating}</p>` : '<p>Not Rated</p>') +
+      (values.url ? `<button class='site-button'><a href='${values.url}' target='_blank'>More Info</a></button>` : `<button class='site-button'>No More Info</button>`) +
       `</div>`)
       // add to locations array
       STATE.locations.push({lat:values.location.lat, lng: values.location.lng});
@@ -69,6 +69,10 @@ initMap(item));
 
 }
 
+$(`.js-options`).on('click','.js-returned', function(){
+  $(this).attr("data-venue")
+  console.log($(this).attr("data-venue") )
+})
 // this function listens for the location submit FIXXX
 
 function watchSubmitLocation(){
