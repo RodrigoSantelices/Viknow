@@ -45,6 +45,7 @@ button{
   border: 1px solid;
   border-color: gray;
   border-radius: 3px;
+  height: 250px;
 }
 #map{
   width:100%;
