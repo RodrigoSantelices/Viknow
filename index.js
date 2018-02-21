@@ -12,15 +12,29 @@ let STATE = {
   nearMe: '',
   latitude:'' ,
   longitude:'',
+  mapCenterLat:'',
+  mapCenterLng:'',
   locations:[
-      {lat:38.300851,lng:-122.441418 } //sonoma county, to be replaced
+      {lat:38.3008793,lng:-122.4415462 } //sonoma county, to be replaced
 
 ]
 }
 
+const GOOGLE_MAPS_TEXT = 'https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/textsearch/json';
 const FOUR_SQUARE = 'https://api.foursquare.com/v2/venues/explore';
+const GOOGLE_MAPS_DETAILS = 'https://maps.googleapis.com/maps/api/place/details/json'
+// this function retrieves data from the google api for locations
+function getDataFromGoogleText(locale, callback){
+  const data = {
+    query: STATE.searchFor+' in '+locale,
+    key:'AIzaSyDjWatYqtllES1av6Nt2vC-r0JtP6uoEwg',
+    pagetoken:'' // make this work to display 20 more results
+  }
+  $.getJSON(GOOGLE_MAPS_TEXT, data, callback)
+  console.log(locale)
+};
 
-// this function retrieves data from the foursquare api. Locale = set destination
+// this function retrieves data from the foursquare api currently used to return the city that was searched
 function getDataFromFourSquare(locale, callback){
   const data = {
     client_id: 'WAAZ1GSY5CM05ZRVSRUXC4JYMM4RRZ5KLOKOMCF4PRYI2XHZ',
@@ -33,46 +47,42 @@ function getDataFromFourSquare(locale, callback){
     limit:30
   }
   $.getJSON(FOUR_SQUARE, data, callback)
-  console.log(locale)
-};
+}
 
 // this function renders our results into html
 function renderResults(result){
   console.log(result);
   STATE.locations.length = 0;
-  for (i=0; i<result.items.length;i++){
-    const values = result.items[i].venue;
-    if (values.location.address){
+  for (i=0; i<result.results.length;i++){
+    const values = result.results[i];
+  //  if (values.formatted_address){
     $(`.js-options`).append(`
-      <div class='js-returned' data-venue ='${values.name}'>
+      <div class='js-returned' data-lat ='${values.geometry.location.lat}' data-lng='${values.geometry.location.lng}' data-latlng = '{lat:${values.geometry.location.lat}, lng:'${values.geometry.location.lng}}'>
       <h3>${values.name}</h3>`+
-      (values.contact.formattedPhone ? `<p>Contact:${values.contact.formattedPhone}</p>`: `<p>No Contact Provided</p>`) +
-      `<p>Address:${values.location.address}</p>` +
+  // will display phone number from places    (values.contact.formattedPhone ? `<p>Contact:TBD</p>`: `<p>No Contact Provided</p>`) +
+      `<p>Address:${values.formatted_address}</p>` +
       (values.rating ? `<p>Rating:${values.rating}</p>` : '<p>Not Rated</p>') +
-      (values.url ? `<button class='site-button'><a href='${values.url}' target='_blank'>More Info</a></button>` : `<button class='site-button'>No More Info</button>`) +
+    //no links yet  (values.url ? `<button class='site-button'><a href='${values.url}' target='_blank'>More Info</a></button>` : `<button class='site-button'>No More Info</button>`) +
       `</div>`)
       // add to locations array
-      STATE.locations.push({lat:values.location.lat, lng: values.location.lng});
-        }
+      STATE.locations.push({lat:values.geometry.location.lat, lng:values.geometry.location.lng});
+      //  }
       }}
-// this function goes through the returned objects
-function displayFourSquareData(data){
-  console.log(data);
-/* don't hide?
-  $(`.js-where`).addClass('hidden');
-  $(`.js-here`).addClass('hidden'); */
-  $(`.whereSearched`).append(`<div class='search-place'>${data.response.geocode.displayString}</div>`)
-  const results = data.response.groups.map((item, index) =>
-renderResults(item));
-const resultsMap = data.response.groups.map((item, index) =>
-initMap(item));
+// this function goes through the returned objects from the google api
+function displayGoogleTextData(data){
+  //console.log(data);
+ //const gathered = data.results.map((item, index) =>
+ renderResults(data);
+ initMap(data);
 
 }
+// this function goes through the returned objects of the foursquare api - currently only the city that was searched
+function displayFourSquareData(data){
+//  console.log(data);
+ $(`.whereSearched`).append(`<div class='search-place'>${data.response.geocode.displayString}</div>`)
+}
 
-$(`.js-options`).on('click','.js-returned', function(){
-  $(this).attr("data-venue")
-  console.log($(this).attr("data-venue") )
-})
+
 // this function listens for the location submit FIXXX
 
 function watchSubmitLocation(){
@@ -87,6 +97,7 @@ function watchSubmitLocation(){
     $(`.whereSearched`).children('div').remove();
     // these event listeners set the searchFor
     //move setSearchFor function in here -->
+    getDataFromGoogleText(locale, displayGoogleTextData);
     getDataFromFourSquare(locale, displayFourSquareData);
 })
 }
@@ -131,28 +142,44 @@ function updateTextInput(val) {
           STATE.distance = val;
           console.log(STATE.distance);
         }
+
+
 // map functionality, initiates map and displays returns on map also has access to returned values
 function initMap(result){
-//test sonoma
-  //let sonoma = {lat:result.items[0].venue.location.lat, lng: result.items[0].venue.location.lng};
-//actual sonoma
+  var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  var labelIndex = 0;
+
 let map = new google.maps.Map(document.getElementById('map'), {
-  zoom: 12,
+  zoom: 9,
   center: STATE.locations[0]
 });
+
 let options = [];
 
-
-let newIcon = 'red-wine-bottle.svg'
+let newIcon = 'red-wine-bottle.svg';
 // new marker for every returned location
+let position = '';
 for(i=0; i<STATE.locations.length; i++){
     options[i] = new google.maps.Marker({
     position: new google.maps.LatLng(STATE.locations[i]),
     animation:google.maps.Animation.DROP,
+    label: labels[labelIndex++ % labels.length],
     map: map,
   //  icon: newIcon
   });
-}
+    }
+
+  //on click makrer zoom in
+$(`.js-options`).on('click','.js-returned', function(){
+      STATE.mapCenterLat = $(this).attr("data-lat");
+      STATE.mapCenterLng = $(this).attr("data-lng");
+      let latLng = new google.maps.LatLng(STATE.mapCenterLat, STATE.mapCenterLng)
+        map.panTo(latLng);
+        map.setZoom(18);
+      //  center: STATE.mapCenter
+        });
+
+
 //sets zoom to include all markers
 var bounds = new google.maps.LatLngBounds();
 for (var i = 0; i < options.length; i++) {
@@ -162,6 +189,7 @@ for (var i = 0; i < options.length; i++) {
 map.fitBounds(bounds);
 
 }
+
 //function to bounce pins, yes you read that right
 function toggleBounce() {
   if(marker.getAnimation() !== null){
