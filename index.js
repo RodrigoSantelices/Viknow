@@ -62,6 +62,7 @@ function renderResults(result){
   // will display phone number from places    (values.contact.formattedPhone ? `<p>Contact:TBD</p>`: `<p>No Contact Provided</p>`) +
       `<p>Address:${values.formatted_address}</p>` +
       (values.rating ? `<p>Rating:${values.rating}</p>` : '<p>Not Rated</p>') +
+      //(values.photos ? `<img src = ${values.photos[0].photo_reference}></img>` : '<p>Not Photos</p>') +
     //no links yet  (values.url ? `<button class='site-button'><a href='${values.url}' target='_blank'>More Info</a></button>` : `<button class='site-button'>No More Info</button>`) +
       `</div>`)
       // add to locations array
