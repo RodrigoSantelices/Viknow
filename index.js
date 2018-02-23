@@ -20,6 +20,7 @@ let STATE = {
 ]
 }
 
+
 const GOOGLE_MAPS_TEXT = 'https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/textsearch/json';
 const FOUR_SQUARE = 'https://api.foursquare.com/v2/venues/explore';
 const GOOGLE_MAPS_DETAILS = 'https://maps.googleapis.com/maps/api/place/details/json'
@@ -80,7 +81,7 @@ function displayGoogleTextData(data){
 // this function goes through the returned objects of the foursquare api - currently only the city that was searched
 function displayFourSquareData(data){
 //  console.log(data);
- $(`.whereSearched`).append(`<div class='search-place'>${data.response.geocode.displayString}</div>`)
+ $(`.whereSearched`).append(`<h2>${data.response.geocode.displayString}</h2>`)
 }
 
 
@@ -95,7 +96,7 @@ function watchSubmitLocation(){
     //clear previous results
 
     $(`.js-options`).children('div').remove();
-    $(`.whereSearched`).children('div').remove();
+    $(`.whereSearched`).children('h2').remove();
     // these event listeners set the searchFor
     //move setSearchFor function in here -->
     getDataFromGoogleText(locale, displayGoogleTextData);

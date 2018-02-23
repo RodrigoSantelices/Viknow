@@ -6,46 +6,35 @@
     <title>Viknow: Wine Search</title>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <link rel="stylesheet" href="index.css">
+    <link href="https://fonts.googleapis.com/css?family=Forum" rel="stylesheet">
   </head>
   <body>
     <main role="main">
       <div class="titles">
       <h1>ViKnow</h1>
+      <h2>Where to Go</h2>
     </div>
       <form class="js-form" action="index.html" method="post">
         <fieldset>
-          <legend>Where to Go</legend>
       <button type="button" name="button" class=" js-wineries js-search">Wineries</button>
       <button type="button" name="button" class="js-tasteRooms js-search ">Tasting Rooms</button>
       </fieldset>
       </form>
+
+      <form class="js-here hidden" action="index.html" method="post">
+        <h2>Where to Search</h2>
+      <!-- BROKEN CURRENT LOCATION <button class='js-nearMe'>Use My Current Location</button> -->
+      </form>
+
+      <form class="js-where hidden" autocomplete="off" id="form">
+
+
+        <input type='text' class='js-otherLocation' placeholder="Search a Location ex. Sonoma, CA"/>
+        <button type="submit" class="js-search-button" name="button"></button>
+      </form>
       <div id="map">
           <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjWatYqtllES1av6Nt2vC-r0JtP6uoEwg&libraries=places&callback=initMap" async defer></script>
       </div>
-      <form class="js-here hidden" action="index.html" method="post">
-        <fieldset>
-          <legend>Where to Search</legend>
-
-      <!-- BROKEN CURRENT LOCATION <button class='js-nearMe'>Use My Current Location</button> -->
-
-      </form>
-      <form class="js-where hidden" action="index.html" method="post">
-        <input type='text' name='location search' class='js-otherLocation' placeholder="ex. Sonoma, CA">
-        <button type="submit" class="js-search-button" name="button">Search</button>
-      <!-- Distance is not currently necessary
-      <label>Distance (mi)</label>
-        <input  type="range" name="points" min="1" max="100" step:'25' list='tickmarks' class="rangeBar" onchange="updateTextInput(this.value);">
-        <datalist id='tickmarks'>
-              <option value="1" label="1">
-              <option value="25" label=25>
-              <option value="50" label=50>
-              <option value="75" label=75>
-              <option value="100" label=100>
-            </datalist>
-            <input type="text" id="textInput" value="50" disabled>
-          -->
-        </fieldset>
-      </form>
       <section class='whereSearched'>
       </section>
 
