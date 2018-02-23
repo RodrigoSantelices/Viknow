@@ -2,11 +2,17 @@
   box-sizing: border-box;
 }
 body{
+  background-image: url("topography.png");
   background-color: #401721;
   font-family: 'Forum', cursive;
+
+}
+img{
+  opacity: .5;
 }
 main{
   text-align: center;
+
 }
 h1{
   color: #E0D7D5;
@@ -32,18 +38,53 @@ button{
   margin-right: auto;
   margin-left: auto;
   padding: 10px;
-  margin-top: 10px;
+  margin-top: 0px;
   margin-bottom: 10px;
-  background-color: #E0D7D5;
+  background-color: #994964;
+  border-color:#994964;
+  color: white;
+  font-weight: bold;
   border-radius: 4px;
+  outline-width: 0;
+}
+button:hover{
+  background-color: #a54fa1;
+  border-color: #a54fa1;
 }
 
 .js-search-button{
   padding: 0;
+  background-color: #994964;
+  border-color: #994964;
+  height: 40px;
+  width: 80px;
+  outline-width: 0;
+  margin-left: -8px;
+  font-weight: bold;
+  color: white;
+}
+
+.js-search-button:hover{
+  background-color: #a54fa1;
+  border-color: #a54fa1;
+}
+.js-otherLocation{
+  border: 3px solid #622D3F;
+  background-color:#622D3F;
+  height: 40px;
+  width: 40%;
+  border-radius: 4px;
+  outline-width: 0;
+  padding-left: 15px;
+  color: white;
+}
+::placeholder{
+  color: #E0D7D5;
 }
 
 .selected{
-  background-color: #a2dba6;
+  background-color: #a54fa1;
+  border-color: #a54fa1;
 }
 .rangeBar{
   display: block;
