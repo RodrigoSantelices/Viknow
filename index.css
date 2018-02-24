@@ -2,16 +2,16 @@
   box-sizing: border-box;
 }
 body{
-  background-image: url("topography.png");
-  background-color: #401721;
+
+  background-image: url("Viknow_backgroundOne.png");
+  opacity: .50%;
   font-family: 'Forum', cursive;
 
 }
-img{
-  opacity: .5;
-}
+
 main{
   text-align: center;
+
 
 }
 h1{
@@ -48,14 +48,14 @@ button{
   outline-width: 0;
 }
 button:hover{
-  background-color: #a54fa1;
-  border-color: #a54fa1;
+  background-color: #E91689;
+  border-color: #E91689;
 }
 
 .js-search-button{
   padding: 0;
-  background-color: #994964;
-  border-color: #994964;
+  background-color: #E91689;
+  border-color: #E91689;
   height: 40px;
   width: 80px;
   outline-width: 0;
@@ -65,8 +65,8 @@ button:hover{
 }
 
 .js-search-button:hover{
-  background-color: #a54fa1;
-  border-color: #a54fa1;
+  background-color: #E91689;
+  border-color: #E91689;
 }
 .js-otherLocation{
   border: 3px solid #622D3F;
@@ -83,8 +83,8 @@ button:hover{
 }
 
 .selected{
-  background-color: #a54fa1;
-  border-color: #a54fa1;
+  background-color: #E91689;
+  border-color: #E91689;
 }
 .rangeBar{
   display: block;
