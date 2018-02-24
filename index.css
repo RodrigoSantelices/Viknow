@@ -51,7 +51,10 @@ button{
   font-weight: bold;
   border-radius: 4px;
   outline-width: 0;
-  width: 200px;
+  width: 20%;
+}
+.js-search{
+  min-width: 130px;
 }
 button:hover{
   background-color: #E91689;
@@ -78,7 +81,8 @@ button:hover{
   border: 3px solid #431c2a;
   background-color:#431c2a;
   height: 40px;
-  width: 25%;
+  max-width: 230px;
+  min-width: 140px;
   border-radius: 4px;
   outline-width: 0;
   padding-left: 15px;
@@ -91,6 +95,10 @@ button:hover{
 .selected{
   background-color: #E91689;
   border-color: #E91689;
+}
+.errorMsg{
+  color: #E91689;
+  font-weight: bold;
 }
 .rangeBar{
   display: block;
@@ -128,7 +136,7 @@ button:hover{
 div.js-options{
   overflow:auto;
   white-space: nowrap;
-  
+
 
 }
 

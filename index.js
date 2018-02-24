@@ -25,6 +25,17 @@ const GOOGLE_MAPS_TEXT = 'https://cors-anywhere.herokuapp.com/https://maps.googl
 const FOUR_SQUARE = 'https://api.foursquare.com/v2/venues/explore';
 const GOOGLE_MAPS_DETAILS = 'https://maps.googleapis.com/maps/api/place/details/json'
 // this function retrieves data from the google api for locations
+
+//general error handling
+$.ajaxSetup({
+  error: function(xhr, status, error) {
+  //  alert("An AJAX error occured: " + status + "\nError: " + error);
+  $(`.whereSearched`).children('h2').remove();
+  $(`.whereSearched`).append(`<h2 class='errorMsg'>No Results Found</h2>`)
+  }
+});
+
+
 function getDataFromGoogleText(locale, callback){
   const data = {
     query: STATE.searchFor+' in '+locale,
@@ -56,20 +67,22 @@ function renderResults(result){
   STATE.locations.length = 0;
   for (i=0; i<result.results.length;i++){
     const values = result.results[i];
-  //  if (values.formatted_address){
-    $(`.js-options`).append(`
-      <div class='js-returned' data-lat ='${values.geometry.location.lat}' data-lng='${values.geometry.location.lng}' data-latlng = '{lat:${values.geometry.location.lat}, lng:'${values.geometry.location.lng}}'>
-      <h3>${values.name}</h3>`+
-  // will display phone number from places    (values.contact.formattedPhone ? `<p>Contact:TBD</p>`: `<p>No Contact Provided</p>`) +
-      `<p>Address:${values.formatted_address}</p>` +
-      (values.rating ? `<p>Rating:${values.rating}</p>` : '<p>Not Rated</p>') +
-      //(values.photos ? `<img src = ${values.photos[0].photo_reference}></img>` : '<p>Not Photos</p>') +
-    //no links yet  (values.url ? `<button class='site-button'><a href='${values.url}' target='_blank'>More Info</a></button>` : `<button class='site-button'>No More Info</button>`) +
-      `</div>`)
-      // add to locations array
-      STATE.locations.push({lat:values.geometry.location.lat, lng:values.geometry.location.lng});
+   if (result.results.length){
+        $(`.js-options`).append(`
+          <div class='js-returned' data-lat ='${values.geometry.location.lat}' data-lng='${values.geometry.location.lng}' data-latlng = '{lat:${values.geometry.location.lat}, lng:'${values.geometry.location.lng}}'>
+          <h3>${values.name}</h3>`+
+      // will display phone number from places    (values.contact.formattedPhone ? `<p>Contact:TBD</p>`: `<p>No Contact Provided</p>`) +
+          `<p>Address:${values.formatted_address}</p>` +
+          (values.rating ? `<p>Rating:${values.rating}</p>` : '<p>Not Rated</p>') +
+          //(values.photos ? `<img src = ${values.photos[0].photo_reference}></img>` : '<p>Not Photos</p>') +
+        //no links yet  (values.url ? `<button class='site-button'><a href='${values.url}' target='_blank'>More Info</a></button>` : `<button class='site-button'>No More Info</button>`) +
+          `</div>`)
+          // add to locations array
+          STATE.locations.push({lat:values.geometry.location.lat, lng:values.geometry.location.lng})}
+
+      };
       //  }
-      }}
+      }
 // this function goes through the returned objects from the google api
 function displayGoogleTextData(data){
   //console.log(data);
@@ -91,6 +104,7 @@ function watchSubmitLocation(){
   $(`.js-where`).submit(event =>{
     event.preventDefault();
     const locale = $('.js-otherLocation').val();
+    if(locale){
     //clear input
     $('.js-otherLocation').val('');
     //clear previous results
@@ -100,7 +114,12 @@ function watchSubmitLocation(){
     // these event listeners set the searchFor
     //move setSearchFor function in here -->
     getDataFromGoogleText(locale, displayGoogleTextData);
-    getDataFromFourSquare(locale, displayFourSquareData);
+    getDataFromFourSquare(locale, displayFourSquareData);}
+
+    else{
+      $(`.whereSearched`).children('h2').remove();
+      $(`.whereSearched`).append(`<h2 class='errorMsg'>No Search Term Given</h2>`)
+    }
 })
 }
 
