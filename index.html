@@ -6,13 +6,13 @@
     <title>Viknow: Wine Search</title>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <link rel="stylesheet" href="index.css">
-    <link href="https://fonts.googleapis.com/css?family=Forum" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Forum|Questrial" rel="stylesheet">
   </head>
   <body>
+    <header>
+      <img class="logo" src="Logo_white_2.png">
+    </header>
     <main role="main">
-      <div class="titles">
-      <h1>ViKnow</h1>
-    </div>
       <form class="js-form" action="index.html" method="post">
         <fieldset>
           <h2>Where to Go</h2>
@@ -27,7 +27,7 @@
 
       <form class="js-where hidden" autocomplete="off" id="form">
           <h2 class='search-title'>Where to Search</h2>
-          <input type='text' class='js-otherLocation' placeholder="ex.. Sonoma, CA"/>
+          <input type='text' class='js-otherLocation' placeholder="ex. Sonoma, CA"/>
           <button type="submit" class="js-search-button" name="button">SEARCH</button>
       </form>
 

@@ -15,8 +15,10 @@ let STATE = {
   mapCenterLat:'',
   mapCenterLng:'',
   locations:[
-      {lat:38.3008793,lng:-122.4415462 } //sonoma county, to be replaced
-
+      {lat:38.3008793,lng:-122.4415462 }, //ravenswood
+      {lat:38.299723,lng:-122.421981}, // Buena vista
+      {lat:38.302088,lng:-122.424820}, // Bartholomew Park
+      {lat:38.301072,lng:-122.403855} // Favero Vineyards
 ]
 }
 
@@ -70,10 +72,10 @@ function renderResults(result){
    if (result.results.length){
         $(`.js-options`).append(`
           <div class='js-returned' data-lat ='${values.geometry.location.lat}' data-lng='${values.geometry.location.lng}' data-latlng = '{lat:${values.geometry.location.lat}, lng:'${values.geometry.location.lng}}'>
-          <h3>${values.name}</h3>`+
+          <h2>${values.name}</h2>`+
       // will display phone number from places    (values.contact.formattedPhone ? `<p>Contact:TBD</p>`: `<p>No Contact Provided</p>`) +
-          `<p>Address:${values.formatted_address}</p>` +
-          (values.rating ? `<p>Rating:${values.rating}</p>` : '<p>Not Rated</p>') +
+          `<p>Address:<br>${values.formatted_address}</p>` +
+          (values.rating ? `<p>Rating:<br> ${values.rating} / 5</p>` : '<p>Not<br>Rated</p>') +
           //(values.photos ? `<img src = ${values.photos[0].photo_reference}></img>` : '<p>Not Photos</p>') +
         //no links yet  (values.url ? `<button class='site-button'><a href='${values.url}' target='_blank'>More Info</a></button>` : `<button class='site-button'>No More Info</button>`) +
           `</div>`)
