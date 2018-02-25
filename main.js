@@ -18,7 +18,8 @@ let STATE = {
       {lat:38.3008793,lng:-122.4415462 }, //ravenswood
       {lat:38.299723,lng:-122.421981}, // Buena vista
       {lat:38.302088,lng:-122.424820}, // Bartholomew Park
-      {lat:38.301072,lng:-122.403855} // Favero Vineyards
+      {lat:38.301072,lng:-122.403855}, // Favero Vineyards
+      {lat:38.276088,lng:-122.414513} // Scribe Winery
 ]
 }
 
@@ -37,7 +38,7 @@ $.ajaxSetup({
   }
 });
 
-
+// google places Text Search api request
 function getDataFromGoogleText(locale, callback){
   const data = {
     query: STATE.searchFor+' in '+locale,
@@ -82,13 +83,12 @@ function renderResults(result){
           // add to locations array
           STATE.locations.push({lat:values.geometry.location.lat, lng:values.geometry.location.lng})}
 
-      };
-      //  }
+        };
       }
 // this function goes through the returned objects from the google api
 function displayGoogleTextData(data){
   //console.log(data);
- //const gathered = data.results.map((item, index) =>
+ // passes values to other functions
  renderResults(data);
  initMap(data);
 
@@ -125,10 +125,8 @@ function watchSubmitLocation(){
 })
 }
 
-//my location not working currently
-function watchSubmitCurrent(){
-
-}
+//FUTURE FEATURE > Use my location, requires use of google places Nearby Search api
+function watchSubmitCurrent(){}
 
 // this function sets the searchFor key value in STATE to either wineries or tasting room
 function setSearchFor(){
@@ -169,9 +167,10 @@ function updateTextInput(val) {
 
 // map functionality, initiates map and displays returns on map also has access to returned values
 function initMap(result){
+/* currently buggy, removing letters for now
   var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
   var labelIndex = 0;
-
+*/
 let map = new google.maps.Map(document.getElementById('map'), {
   zoom: 9,
   center: STATE.locations[0]
@@ -186,9 +185,9 @@ for(i=0; i<STATE.locations.length; i++){
     options[i] = new google.maps.Marker({
     position: new google.maps.LatLng(STATE.locations[i]),
     animation:google.maps.Animation.DROP,
-    label: labels[labelIndex++ % labels.length],
+  //  label: labels[labelIndex++ % labels.length],
     map: map,
-  //  icon: newIcon
+    icon:'icon.png'
   });
     }
 

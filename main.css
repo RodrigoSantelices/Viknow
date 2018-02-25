@@ -63,9 +63,10 @@ button{
   border-radius: 4px;
   outline-width: 0;
   width: 15%;
+  
 }
 .js-search{
-  min-width: 130px;
+  min-width: 160px;
 }
 button:hover{
   background-color: #E91689;
