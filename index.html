@@ -3,44 +3,24 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>Viknow: Wine Search</title>
+    <title>Viknow: Wine Search Home Page</title>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <link rel="stylesheet" href="index.css">
     <link href="https://fonts.googleapis.com/css?family=Forum|Questrial" rel="stylesheet">
   </head>
   <body>
     <header>
-      <img class="logo" src="Logo_white_2.png">
+      <img src="Logo.png">
     </header>
     <main role="main">
-      <form class="js-form" action="index.html" method="post">
-        <fieldset>
-          <h2>Where to Go</h2>
-      <button type="button" name="button" class=" js-wineries js-search">Wineries</button>
-      <button type="button" name="button" class="js-tasteRooms js-search ">Tasting Rooms</button>
-      </fieldset>
-      </form>
-
-      <form class="js-here hidden" action="index.html" method="post">
-      <!-- BROKEN CURRENT LOCATION <button class='js-nearMe'>Use My Current Location</button> -->
-      </form>
-
-      <form class="js-where hidden" autocomplete="off" id="form">
-          <h2 class='search-title'>Where to Search</h2>
-          <input type='text' class='js-otherLocation' placeholder="ex. Sonoma, CA"/>
-          <button type="submit" class="js-search-button" name="button">SEARCH</button>
-      </form>
-
-      <div id="map">
-          <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjWatYqtllES1av6Nt2vC-r0JtP6uoEwg&libraries=places&callback=initMap" async defer></script>
+      <div class="typewriter">
+        <h1>Find wineries and tasting rooms<br>around the world</h1>
       </div>
-      <section class='whereSearched'>
-      </section>
+      <form class="start-button" action="main.html">
+        <input type="submit" class='start' value="START"/>
+      </form>
 
-      <div class="js-options" >
 
-      </div>
     </main>
-    <script src='index.js'></script>
   </body>
 </html>

@@ -3,27 +3,28 @@
 }
 body{
 
-  background-image: url("Viknow_backgroundOne.png");
+  background-image: url("HomePageBG.png");
   font-family: 'Forum', cursive;
-
 }
+
 header{
   text-align: center;
   margin-left: auto;
   margin-right: auto;
+  width: 70%;
+}
+img{
+  width: 58%;
+  min-width: 300px;
 }
 
-.logo{
-  width: 40%;
-  min-width: 200px;
-}
 main{
   text-align: center;
 
 
 }
 h1{
-  color: #E0D7D5;
+  color: #6a2d3f;
   font-size: 50px;
   margin-bottom: 0;
 
@@ -42,24 +43,19 @@ h2{
   display: inline;
   margin-right: 15px;
 }
-label{
-  display: block;
-  padding-bottom: 10px;
-  padding-top: 10px;
-}
 
-button{
+.start{
   font-family: 'Questrial', sans-serif;
   text-align: center;
   margin-right: auto;
   margin-left: auto;
   padding: 10px;
-  margin-top: 0px;
+  margin-top: 50px;
   margin-bottom: 10px;
   background-color: #994964;
   border-color:#994964;
   color: white;
-  font-size: 18px;
+  font-size: 28px;
   border-radius: 4px;
   outline-width: 0;
   width: 15%;
@@ -67,7 +63,7 @@ button{
 .js-search{
   min-width: 130px;
 }
-button:hover{
+.start:hover{
   background-color: #E91689;
   border-color: #E91689;
 }
@@ -82,82 +78,4 @@ button:hover{
   outline-width: 0;
   margin-left: -8px;
   color: white;
-}
-
-.js-search-button:hover{
-  background-color: #E91689;
-  border-color: #E91689;
-}
-.js-otherLocation{
-  border: 3px solid #431c2a;
-  background-color:#431c2a;
-  height: 40px;
-  max-width: 230px;
-  min-width: 140px;
-  border-radius: 4px;
-  outline-width: 0;
-  padding-left: 15px;
-  color: white;
-}
-::placeholder{
-  color: #E0D7D5;
-}
-
-.selected{
-  background-color: #E91689;
-  border-color: #E91689;
-}
-.errorMsg{
-  font-size: 40px;
-}
-.rangeBar{
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-
-}
-#textInput{
-  width: 30px;
-  text-align:center;
-  border:none;
-}
-
-.hidden{
-  visibility: hidden;
-}
-
-.js-returned{
-  border: 1px solid;
-  border-color: gray;
-  border-radius: 3px;
-  height: 150px;
-}
-#map{
-  width:100%;
-  height: 350px;
-
-}
-.js-returned{
-  font-family: 'Questrial', sans-serif;
-  background-color: #994964;
-  border-color:#994964;
-  color: white;
-  border: none;
-  margin-right: 10px;
-  padding-left: 20px;
-  padding-right: 20px;
-  padding-top: 10px;
-}
-div.js-options{
-  overflow:auto;
-  white-space: nowrap;
-}
-
-
-div.js-returned{
-  display: inline-block;
-  text-align: center;
-}
-div.js-returned a:hover{
-  background-color: gray;
 }
