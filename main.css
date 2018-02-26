@@ -185,7 +185,7 @@ div.js-returned{
 div.js-returned a:hover{
   background-color: gray;
 }
-@media only screen and (max-width: 480px) {
+@media only screen and (max-width: 640px) {
   #map{
     height: 280px;
   }
