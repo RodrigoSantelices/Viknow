@@ -14,6 +14,7 @@ let STATE = {
   longitude:'',
   mapCenterLat:'',
   mapCenterLng:'',
+  placeIds:[],
   locations:[
       {lat:38.3008793,lng:-122.4415462 }, //ravenswood
       {lat:38.299723,lng:-122.421981}, // Buena vista
@@ -33,16 +34,15 @@ const GOOGLE_MAPS_DETAILS = 'https://maps.googleapis.com/maps/api/place/details/
 $.ajaxSetup({
   error: function(xhr, status, error) {
   //  alert("An AJAX error occured: " + status + "\nError: " + error);
-  $(`.whereSearched`).children('ul').remove();
-  $(`.whereSearched`).append(`<ul><h2 class='errorMsg'>No Results Found</h2></ul>`)
-  }
-});
+  $(`.js-error`).children('div').remove();
+  $(`.js-error`).append(`<div><h2 class='errorMsg'>No Results Found</h2></div>`)
+}});
 
 // google places Text Search api request
 function getDataFromGoogleText(locale, callback){
   const data = {
     query: STATE.searchFor+' in '+locale,
-    key:'AIzaSyDjWatYqtllES1av6Nt2vC-r0JtP6uoEwg',
+    key:'AIzaSyAw49baY4xcONFxgHFDIhGm8mcYjriK2CE',
     pagetoken:'' // make this work to display 20 more results
   }
   $.getJSON(GOOGLE_MAPS_TEXT, data, callback)
@@ -68,23 +68,36 @@ function getDataFromFourSquare(locale, callback){
 function renderResults(result){
   console.log(result);
   STATE.locations.length = 0;
+  if (result.status ==='OK'){
   for (i=0; i<result.results.length;i++){
     const values = result.results[i];
-   if (result.results.length){
+    let request = {placeId: values.place_id};
+  //  console.log(result.status);
+        $(`.js-form`).children('fieldset').remove();
+        $(`.js-where`).children('fieldset').remove();  //potential design to clear Where to Go and buttons form UI
+        $(`.js-map`).removeClass('hidden');
+        $(`.js-error`).children('div').remove();
         $(`.js-options`).append(`
           <div class='js-returned' data-lat ='${values.geometry.location.lat}' data-lng='${values.geometry.location.lng}' data-latlng = '{lat:${values.geometry.location.lat}, lng:'${values.geometry.location.lng}}'>
-          <h2>${values.name}</h2>`+
-      // will display phone number from places    (values.contact.formattedPhone ? `<p>Contact:TBD</p>`: `<p>No Contact Provided</p>`) +
-          `<p>Address:<br>${values.formatted_address}</p>` +
+          <h3>${values.name}</h3>
+          <p>Address:<br>${values.formatted_address}</p>` +
           (values.rating ? `<p>Rating:<br> ${values.rating} / 5</p>` : '<p>Not<br>Rated</p>') +
-          //(values.photos ? `<img src = ${values.photos[0].photo_reference}></img>` : '<p>Not Photos</p>') +
-        //no links yet  (values.url ? `<button class='site-button'><a href='${values.url}' target='_blank'>More Info</a></button>` : `<button class='site-button'>No More Info</button>`) +
           `</div>`)
           // add to locations array
-          STATE.locations.push({lat:values.geometry.location.lat, lng:values.geometry.location.lng})}
 
-        };
+          $(`.js-form`).children('button').remove();
+          $(`.js-form`).append(`<button type="submit" class="js-search-again" name="button">Search Again</button>`);
+          STATE.locations.push({lat:values.geometry.location.lat, lng:values.geometry.location.lng});
+          // add to place IDs array
+          STATE.placeIds.push(request);
+        }}
+      else{
+        console.log('error');
+        $(`.js-error`).children('div').remove();
+        $(`.js-error`).append(`<div><h2 class='errorMsg'>No Results Found</h2></div>`)
       }
+        };
+
 // this function goes through the returned objects from the google api
 function displayGoogleTextData(data){
   //console.log(data);
@@ -95,13 +108,11 @@ function displayGoogleTextData(data){
 }
 // this function goes through the returned objects of the foursquare api - currently only the city that was searched
 function displayFourSquareData(data){
-//  console.log(data);
- $(`.whereSearched`).append(`<ul><li><h3>Click on a result for a closer look</h3></li><li><h2>${data.response.geocode.displayString}</h2></li></ul>`)
+//console.log(data);
+ $(`.whereSearched`).append(`<div class='row'><div class='col-6'><h2>${data.response.geocode.displayString}</h2></div><div class='col-6'><h3>⮟ Click and scroll through results for a closer look ➤</h3></div></div>`)
 }
 
-
-// this function listens for the location submit FIXXX
-
+// this function listens for the location submit
 function watchSubmitLocation(){
   $(`.js-where`).submit(event =>{
     event.preventDefault();
@@ -112,32 +123,32 @@ function watchSubmitLocation(){
     //clear previous results
 
     $(`.js-options`).children('div').remove();
-    $(`.whereSearched`).children('ul').remove();
+    $(`.whereSearched`).children('div').remove();
     // these event listeners set the searchFor
     //move setSearchFor function in here -->
     getDataFromGoogleText(locale, displayGoogleTextData);
     getDataFromFourSquare(locale, displayFourSquareData);}
 
     else{
-      $(`.whereSearched`).children('ul').remove();
-      $(`.whereSearched`).append(`<h2 class='errorMsg'>No Search Term Given</h2>`)
+      $(`.js-error`).children('div').remove();
+      $(`.js-error`).append(`<div><h2 class='errorMsg'>No Search Term Given</h2></div>`)
     }
 })
 }
 
 //FUTURE FEATURE > Use my location, requires use of google places Nearby Search api
-function watchSubmitCurrent(){}
+//function watchSubmitCurrent(){}
 
 // this function sets the searchFor key value in STATE to either wineries or tasting room
 function setSearchFor(){
-  $(`.js-wineries`).on('click',function(){
+  $(`.js-form`).on('click','.js-wineries',function(){
     $(`.js-wineries`).addClass('selected');
     $(`.js-tasteRooms`).removeClass('selected');
     STATE.searchFor = 'Wineries';
     console.log(STATE.searchFor);
 
   });
-  $(`.js-tasteRooms`).on('click',function(){
+  $(`.js-form`).on('click','.js-tasteRooms',function(){
     $(`.js-tasteRooms`).addClass('selected');
     $(`.js-wineries`).removeClass('selected');
     STATE.searchFor = 'Tasting Room';
@@ -147,13 +158,37 @@ function setSearchFor(){
 
 }
 
+// event listener to search Again
+function searchAgain(){
+$(`.js-form`).on('click',`.js-search-again`, function(){
+  $(`.js-form`).children('button').remove();
+  $(`.js-map`).addClass('hidden')
+  $(`.js-options`).children('div').remove();
+  $(`.whereSearched`).children('div').remove();
+  $(`.js-form`).append(
+    `<fieldset>
+      <h2>Where to Go</h2>
+          <button type="button" name="button" class=" js-wineries js-search">Wineries</button>
+          <button type="button" name="button" class="js-tasteRooms js-search ">Tasting Rooms</button>
+    </fieldset>`
+  )
+});
+}
+
 //This function will call functions based on the users' selection and hides the original form
 function whatToSearch(){
-  $(`.js-search`).on('click',function(){
+  $(`.js-form`).on('click','.js-search',function(){
     //will eventually ask to allow for location
     // make an if statement to set a global variable to winerie or taste room depending on which button was pressed.
-    $(`.js-where`).removeClass('hidden');
-    $(`.js-here`).removeClass('hidden')
+  //  $(`.js-where`).removeClass('hidden');
+  $(`.js-where`).children('fieldset').remove();
+      $(`.js-where`).append(`
+        <fieldset>
+          <legend><h2 class='search-title'>Where to Search</h2></legend>
+          <input type='text' class='js-otherLocation' aria-label='Search Bar' placeholder="ex. Sonoma, CA"/>
+          <button type="submit" class="js-search-button" name="button">SEARCH</button>
+        </fieldset>`)
+    //CURR LOCATION FEATURE $(`.js-here`).removeClass('hidden')
 
   })
 }
@@ -163,7 +198,6 @@ function updateTextInput(val) {
           STATE.distance = val;
           console.log(STATE.distance);
         }
-
 
 // map functionality, initiates map and displays returns on map also has access to returned values
 function initMap(result){
@@ -177,8 +211,9 @@ let map = new google.maps.Map(document.getElementById('map'), {
 });
 
 let options = [];
-
+let getDeets = STATE.placeIds;
 let newIcon = 'red-wine-bottle.svg';
+
 // new marker for every returned location
 let position = '';
 for(i=0; i<STATE.locations.length; i++){
@@ -188,7 +223,8 @@ for(i=0; i<STATE.locations.length; i++){
   //  label: labels[labelIndex++ % labels.length],
     map: map,
     icon:'icon.png'
-  });
+  })
+  //
     }
 
   //on click makrer zoom in
@@ -224,6 +260,7 @@ function toggleBounce() {
 // bring it all together function
 function searchWine(){
   setSearchFor();
+  searchAgain();
   whatToSearch();
   watchSubmitLocation();
 //  watchSubmitCurrent();

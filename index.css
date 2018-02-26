@@ -14,11 +14,9 @@ header{
   text-align: center;
   margin-left: auto;
   margin-right: auto;
-  width: 70%;
 }
 img{
-  width: 58%;
-  min-width: 300px;
+  width: 100%;
 }
 
 main{
@@ -26,20 +24,14 @@ main{
   margin-left: auto;
   margin-right: auto;
 }
-h1{
-  color: #6a2d3f;
-  font-size: 50px;
-  margin-bottom: 0;
-
-}
 fieldset{
   border: none;
 }
 h2{
   margin-top: 0;
-  color: #E0D7D5;
-  font-size: 26px;
-  margin-top: 10px;
+  color: #6a2d3f;
+  font-size: 40px;
+  margin-top: 50px;
 }
 
 .search-title{
@@ -49,9 +41,6 @@ h2{
 
 .start{
   font-family: 'Questrial', sans-serif;
-  text-align: center;
-  margin-right: auto;
-  margin-left: auto;
   padding: 10px;
   margin-top: 50px;
   margin-bottom: 10px;
@@ -71,15 +60,15 @@ h2{
   background-color: #E91689;
   border-color: #E91689;
 }
-
+.hidden{
+  visibility: hidden;
+}
 .js-search-button{
   font-family: 'Questrial', sans-serif;
-  padding: 0;
   background-color: #E91689;
   border-color: #E91689;
   height: 40px;
   width: 90px;
   outline-width: 0;
-  margin-left: -8px;
   color: white;
 }
