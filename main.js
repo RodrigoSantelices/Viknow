@@ -109,7 +109,7 @@ function displayGoogleTextData(data){
 // this function goes through the returned objects of the foursquare api - currently only the city that was searched
 function displayFourSquareData(data){
 //console.log(data);
- $(`.whereSearched`).append(`<div class='row'><div class='col-6'><h2>${data.response.geocode.displayString}</h2></div><div class='col-6'><h3>⮟ Click and scroll through results for a closer look ➤</h3></div></div>`)
+ $(`.whereSearched`).append(`<div class='row'><div class='col-6'><h2>${data.response.geocode.displayString}</h2></div><div class='col-6'><h3>Click and scroll through results for a closer look</h3></div></div>`)
 }
 
 // this function listens for the location submit
