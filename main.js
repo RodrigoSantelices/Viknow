@@ -33,8 +33,8 @@ const GOOGLE_MAPS_DETAILS = 'https://maps.googleapis.com/maps/api/place/details/
 $.ajaxSetup({
   error: function(xhr, status, error) {
   //  alert("An AJAX error occured: " + status + "\nError: " + error);
-  $(`.whereSearched`).children('h2').remove();
-  $(`.whereSearched`).append(`<h2 class='errorMsg'>No Results Found</h2>`)
+  $(`.whereSearched`).children('ul').remove();
+  $(`.whereSearched`).append(`<ul><h2 class='errorMsg'>No Results Found</h2></ul>`)
   }
 });
 
@@ -96,7 +96,7 @@ function displayGoogleTextData(data){
 // this function goes through the returned objects of the foursquare api - currently only the city that was searched
 function displayFourSquareData(data){
 //  console.log(data);
- $(`.whereSearched`).append(`<h2>${data.response.geocode.displayString}</h2>`)
+ $(`.whereSearched`).append(`<ul><li><h3>Click on a result for a closer look</h3></li><li><h2>${data.response.geocode.displayString}</h2></li></ul>`)
 }
 
 
@@ -112,14 +112,14 @@ function watchSubmitLocation(){
     //clear previous results
 
     $(`.js-options`).children('div').remove();
-    $(`.whereSearched`).children('h2').remove();
+    $(`.whereSearched`).children('ul').remove();
     // these event listeners set the searchFor
     //move setSearchFor function in here -->
     getDataFromGoogleText(locale, displayGoogleTextData);
     getDataFromFourSquare(locale, displayFourSquareData);}
 
     else{
-      $(`.whereSearched`).children('h2').remove();
+      $(`.whereSearched`).children('ul').remove();
       $(`.whereSearched`).append(`<h2 class='errorMsg'>No Search Term Given</h2>`)
     }
 })
