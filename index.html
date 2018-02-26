@@ -6,18 +6,26 @@
     <title>Viknow: Wine Search Home Page</title>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <link rel="stylesheet" href="index.css">
+    <link href="float-grid.css" rel='stylesheet' type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Forum|Questrial" rel="stylesheet">
   </head>
   <body>
-    <header>
-      <img alt="Viknow Logo, Wine" src="Logo.png">
+    <header role="banner">
+      <div class='row'>
+        <div class="col-12">
+          <img alt="Viknow Logo, Wine" src="Logo_wine.png">
+        </div>
+      </div>
     </header>
     <main role="main">
-      <div class="typewriter">
-        <h1>Find wineries and tasting rooms<br>around the world</h1>
+      <div class="col-12">
+        <h2>Find wineries and tasting rooms<br>around the world</h2>
       </div>
-      <form class="start-button" action="main.html">
-        <input type="submit" class='start' value="START"/>
+      <form class="start-button col-12" action="main.html">
+        <fieldset>
+          <legend class="hidden">Start Button</legend>
+          <input type="submit" class='start' value="START"/>
+        </fieldset>
       </form>
 
 
