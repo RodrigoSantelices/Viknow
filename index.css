@@ -72,3 +72,7 @@ h2{
   outline-width: 0;
   color: white;
 }
+input, textarea {
+  -webkit-appearance: none;
+  -webkit-border-radius: 0;
+}
