@@ -69,10 +69,10 @@ function renderResults(result){
   console.log(result);
   STATE.locations.length = 0;
   if (result.status ==='OK'){
-  for (i=0; i<result.results.length;i++){
-    const values = result.results[i];
-    let request = {placeId: values.place_id};
-  //  console.log(result.status);
+    for (i=0; i<result.results.length;i++){
+      const values = result.results[i];
+      let request = {placeId: values.place_id};
+      //  console.log(result.status);
         $(`.js-form`).children('fieldset').remove();
         $(`.js-where`).children('fieldset').remove();  //potential design to clear Where to Go and buttons form UI
         $(`.js-map`).removeClass('hidden');
@@ -91,7 +91,7 @@ function renderResults(result){
           // add to place IDs array
           STATE.placeIds.push(request);
         }}
-      else{
+    else{
         console.log('error');
         $(`.js-error`).children('div').remove();
         $(`.js-error`).append(`<div><h2 class='errorMsg'>No Results Found</h2></div>`)

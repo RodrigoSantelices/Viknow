@@ -185,6 +185,10 @@ div.js-returned{
 div.js-returned a:hover{
   background-color: gray;
 }
+input, textarea {
+  -webkit-appearance: none;
+  -webkit-border-radius: 0;
+}
 @media only screen and (max-width: 720px) {
   #map{
     height: 280px;
