@@ -44,11 +44,11 @@ h2{
   padding: 10px;
   margin-top: 50px;
   margin-bottom: 10px;
-  background-color: #994964;
-  border-color:#994964;
+  background-color: #994964 !important ;
+  border-color:#994964 !important ;
   color: white;
   font-size: 28px;
-  border-radius: 4px;
+  border-radius: 4px !important ;
   outline-width: 0;
   width: 130px;;
 
