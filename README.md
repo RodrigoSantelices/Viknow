@@ -2,12 +2,18 @@
 Web application for finding wineries and tasting rooms around the world!
 
 Home Page:
+
+
 ![alt text](https://github.com/RodrigoSantelices/Viknow/blob/master/ViknowPics/ViknowHome.PNG)
 
 Search:
+
+
 ![alt text](https://github.com/RodrigoSantelices/Viknow/blob/master/ViknowPics/ViknowSearch.PNG)
 
 Results:
+
+
 ![alt text](https://github.com/RodrigoSantelices/Viknow/blob/master/ViknowPics/ViknowResults.PNG)
 
 Summary:
