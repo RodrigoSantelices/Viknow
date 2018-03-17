@@ -30,12 +30,15 @@
       </form>
       <form class="js-where" autocomplete="off" id="form"></form>
       <div class="js-error"></div>
-
-      <div id="map" title="Google Maps" class="js-map hidden">
+      <div class="row js-results">
+        <section class='whereSearched'></section>
+        <div class="js-options col-3"></div>
+        <div id="map" title="Google Maps" class="js-map hidden col-9">
           <script title="Google Map"src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAw49baY4xcONFxgHFDIhGm8mcYjriK2CE&libraries=places&callback=initMap" async defer></script>
+        </div>
       </div>
-      <section class='whereSearched'></section>
-      <div class="js-options"></div>
+
+
     </main>
     <script src='main.js'></script>
   </body>
