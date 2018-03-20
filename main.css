@@ -2,10 +2,9 @@
   box-sizing: border-box;
 }
 body{
-
+  height: 98%;
   background-image: url("Viknow_backgroundOne.png");
   font-family: 'Forum', cursive;
-
 }
 header{
   text-align: center;
@@ -14,7 +13,7 @@ header{
 }
 
 .logo{
-  width: 100%;
+  width: 70%;
   text-align: center;
   margin-left: auto;
   margin-right: auto;
@@ -150,15 +149,20 @@ button:hover{
 }
 
 #map{
-  width:100%;
-  height: 420px;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
+height: 550px;
 }
-.js-wheresearched{
+
+.js-options{
+  height: 550px;
+  overflow-y: scroll;
+}
+::-webkit-scrollbar {
+display: none;
+}
+.whereSearched{
   margin-left: auto;
   margin-right: auto;
+  margin-top: -50px;
 }
 .js-returned{
   font-family: 'Questrial', sans-serif;
@@ -171,28 +175,23 @@ button:hover{
   padding-top: 10px;
   border: 1px solid #783a4f;
   border-radius: 3px;
+  max-width: 260px;
 }
 
-div.js-options{
-  overflow:auto;
-  white-space: nowrap;
-}
 
 div.js-returned{
   display: inline-block;
   text-align: center;
 }
-div.js-returned a:hover{
-  background-color: gray;
+div.js-returned:hover{
+  background-color: #E91689;
 }
 input, textarea {
   -webkit-appearance: none;
   -webkit-border-radius: 0;
 }
-@media only screen and (max-width: 720px) {
-  #map{
-    height: 280px;
-  }
+@media only screen and (max-width: 960px) {
+
    body {
       font-size:12px ;
    }
