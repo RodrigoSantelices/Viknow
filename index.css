@@ -31,7 +31,7 @@ h2{
   margin-top: 0;
   color: #6a2d3f;
   font-size: 40px;
-  margin-top: 50px;
+  margin-top: 10px;
 }
 
 .search-title{
@@ -42,7 +42,7 @@ h2{
 .start{
   font-family: 'Questrial', sans-serif;
   padding: 10px;
-  margin-top: 50px;
+  margin-top:-10px;
   margin-bottom: 10px;
   background-color: #994964 !important ;
   border-color:#994964 !important ;
@@ -75,4 +75,9 @@ h2{
 input, textarea {
   -webkit-appearance: none;
   -webkit-border-radius: 0;
+}
+
+.intro{
+  margin-top: 20px;
+  background-color: #FFFFFF;
 }
